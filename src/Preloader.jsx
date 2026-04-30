@@ -9,7 +9,11 @@ const TERMINAL_LINES = [
   { text: "$ compiling assets...", delay: 2000, color: "#ffffff88" },
   { text: "  ✓ bundle size: 42.3kb (gzip)", delay: 2500, color: "#4ade80" },
   { text: "$ establishing connection", delay: 3000, color: "#ffffff88" },
-  { text: "  ✓ server running on :5173", delay: 3400, color: "#4ade80" },
+  {
+    text: "  ✓ server running on : faridkurniawan.com",
+    delay: 3400,
+    color: "#4ade80",
+  },
   { text: "$ ready.", delay: 3900, color: "#facc15" },
 ];
 

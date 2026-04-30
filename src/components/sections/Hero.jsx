@@ -524,7 +524,7 @@ export default function Hero({ scrollTo, startAnimation }) {
             className="font-black leading-none mb-4"
             style={{
               fontFamily: "'Syne', sans-serif",
-              fontSize: "clamp(2.5rem, 5vw, 5.5rem)",
+              fontSize: "clamp(1.4rem, 8vw, 5.5rem)",
               overflow: "visible",
               lineHeight: 1,
               visibility: startAnimation ? "visible" : "hidden",
