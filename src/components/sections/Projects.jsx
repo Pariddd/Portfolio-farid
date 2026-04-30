@@ -10,9 +10,17 @@ const CATEGORIES = [
 ];
 const INITIAL_VISIBLE = 6;
 
+const statusConfig = {
+  live: { color: "#22c55e", label: "production" },
+  "in-progress": { color: "#f59e0b", label: "in progress" },
+  archived: { color: "#444", label: "archived" },
+};
+
 // List view row component
 function ProjectListRow({ project, index, onOpen }) {
   const [hovered, setHovered] = useState(false);
+  const { color: statusColor, label: statusLabel } =
+    statusConfig[project.status] ?? statusConfig.archived;
 
   return (
     <div
@@ -87,14 +95,14 @@ function ProjectListRow({ project, index, onOpen }) {
           style={{
             width: 5,
             height: 5,
-            background: project.status === "live" ? "#22c55e" : "#444",
+            background: statusColor,
           }}
         />
         <span
           className="font-mono text-[9px] hidden sm:block"
           style={{ color: "#444", letterSpacing: "0.1em" }}
         >
-          {project.status === "live" ? "production" : "archived"}
+          {statusLabel}
         </span>
       </div>
 
@@ -191,25 +199,29 @@ export default function Projects() {
 
           {/* View Mode Toggle */}
           <div
-            className="flex items-center gap-1 p-1 rounded-lg"
+            className="flex items-center gap-1 p-1 rounded-lg self-start"
             style={{ background: "#111", border: "1px solid #1a1a1a" }}
           >
             {/* Grid toggle */}
             <button
               onClick={() => setViewMode("grid")}
               title="Grid view"
-              className="flex items-center gap-1.5 font-mono text-[10px] px-3 py-1.5 rounded-md transition-all duration-150"
+              className="flex items-center gap-2 font-mono text-[10px] px-3 py-2 sm:px-3 sm:py-1.5 rounded-md transition-all duration-150"
               style={{
                 background: viewMode === "grid" ? "#1a1a1a" : "transparent",
-                color: viewMode === "grid" ? "#facc15" : "#444",
-                border: "none",
+                color: viewMode === "grid" ? "#facc15" : "#666",
+                border:
+                  viewMode === "grid"
+                    ? "1px solid #facc1530"
+                    : "1px solid transparent",
                 cursor: "pointer",
+                minWidth: 44,
+                minHeight: 36,
               }}
             >
-              {/* Grid icon */}
+              {/* Grid icon — 16px on mobile, 12px on sm+ */}
               <svg
-                width="12"
-                height="12"
+                className="w-4 h-4 sm:w-3 sm:h-3 shrink-0"
                 viewBox="0 0 12 12"
                 fill="currentColor"
               >
@@ -218,35 +230,40 @@ export default function Projects() {
                 <rect x="0" y="7" width="5" height="5" rx="1" />
                 <rect x="7" y="7" width="5" height="5" rx="1" />
               </svg>
-              <span className="hidden sm:inline">grid</span>
+              <span className="inline text-[10px]">grid</span>
             </button>
 
             {/* List toggle */}
             <button
               onClick={() => setViewMode("list")}
               title="List view"
-              className="flex items-center gap-1.5 font-mono text-[10px] px-3 py-1.5 rounded-md transition-all duration-150"
+              className="flex items-center gap-2 font-mono text-[10px] px-3 py-2 sm:px-3 sm:py-1.5 rounded-md transition-all duration-150"
               style={{
                 background: viewMode === "list" ? "#1a1a1a" : "transparent",
-                color: viewMode === "list" ? "#facc15" : "#444",
-                border: "none",
+                color: viewMode === "list" ? "#facc15" : "#666",
+                border:
+                  viewMode === "list"
+                    ? "1px solid #facc1530"
+                    : "1px solid transparent",
                 cursor: "pointer",
+                minWidth: 44,
+                minHeight: 36,
               }}
             >
-              {/* List icon */}
+              {/* List icon — 16px on mobile, 12px on sm+, strokeWidth 2 agar tegas */}
               <svg
-                width="12"
-                height="12"
+                className="w-4 h-4 sm:w-3 sm:h-3 shrink-0"
                 viewBox="0 0 12 12"
                 fill="none"
                 stroke="currentColor"
-                strokeWidth="1.5"
+                strokeWidth="2"
+                strokeLinecap="round"
               >
                 <line x1="0" y1="2" x2="12" y2="2" />
                 <line x1="0" y1="6" x2="12" y2="6" />
                 <line x1="0" y1="10" x2="12" y2="10" />
               </svg>
-              <span className="hidden sm:inline">list</span>
+              <span className="inline text-[10px]">list</span>
             </button>
           </div>
         </div>

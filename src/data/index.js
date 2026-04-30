@@ -19,14 +19,16 @@ export const PROJECTS = [
     color: "#facc15",
     accent: "#1a1a1a",
     year: "2026",
+    status: "live",
   },
   {
-    title: "DataForge",
+    title: "DataForge KssOn",
     desc: "ETL pipeline platform with visual builder. Connects 30+ data sources. Deployed on AWS ECS with auto-scaling.",
     tags: ["Python", "PostgreSQL", "FastAPI", "AWS"],
     color: "#4ade80",
     accent: "#0a0a0a",
     year: "2024",
+    status: "in-progress",
   },
   {
     title: "AuthVault",
@@ -35,6 +37,7 @@ export const PROJECTS = [
     color: "#f472b6",
     accent: "#0a0a0a",
     year: "2025",
+    status: "live",
   },
   {
     title: "NexAPI",

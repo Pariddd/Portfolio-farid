@@ -1,9 +1,18 @@
 import { useState } from "react";
 import { useScrollReveal } from "../../hooks/useScrollReveal";
 
+const statusConfig = {
+  live: { color: "#22c55e", label: "production" },
+  "in-progress": { color: "#f59e0b", label: "in progress" },
+  archived: { color: "#555", label: "archived" },
+};
+
 export default function ProjectCard({ project, index, onOpen }) {
   const [ref, visible] = useScrollReveal();
   const [hovered, setHovered] = useState(false);
+
+  const { color: statusColor, label: statusLabel } =
+    statusConfig[project.status] ?? statusConfig.archived;
 
   return (
     <div
@@ -133,14 +142,14 @@ export default function ProjectCard({ project, index, onOpen }) {
             style={{
               width: 6,
               height: 6,
-              backgroundColor: project.status === "live" ? "#22c55e" : "#555",
+              backgroundColor: statusColor,
             }}
           />
           <span
             className="font-mono text-[10px]"
             style={{ color: "#444", letterSpacing: "0.1em" }}
           >
-            {project.status === "live" ? "production" : "archived"}
+            {statusLabel}
           </span>
         </div>
       </div>
