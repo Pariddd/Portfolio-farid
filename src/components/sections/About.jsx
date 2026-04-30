@@ -103,7 +103,7 @@ export default function About() {
     <section
       ref={sectionRef}
       id="about"
-      className="px-8 md:px-20 py-24 max-w-6xl mx-auto"
+      className="px-4 sm:px-8 md:px-20 py-16 md:py-24 max-w-6xl mx-auto"
     >
       <style>{`
         @keyframes fadeUp {
@@ -144,6 +144,24 @@ export default function About() {
         .visible .about-photo {
           animation: scaleIn 0.65s cubic-bezier(0.4,0,0.2,1) 0.1s forwards;
         }
+
+        /* ── Responsive: scale down ProfileCard on mobile ── */
+        .profile-card-scale {
+          transform-origin: top center;
+        }
+        @media (max-width: 479px) {
+          .profile-card-scale {
+            transform: scale(0.78);
+            /* Kompensasi: maxHeight 540 → visual 421px → hemat ~119px layout space */
+            margin-bottom: -108px;
+          }
+        }
+        @media (min-width: 480px) and (max-width: 767px) {
+          .profile-card-scale {
+            transform: scale(0.85);
+            margin-bottom: -78px;
+          }
+        }
       `}</style>
 
       <div className={visible ? "visible" : ""}>
@@ -160,30 +178,32 @@ export default function About() {
           <span style={{ color: "#444" }}>~/portfolio/ </span>02 — About
         </p>
 
-        <div className="grid md:grid-cols-2 gap-12 items-center">
+        <div className="grid md:grid-cols-2 gap-6 md:gap-12 items-center">
           {/* ── ProfileCard ── */}
           <div className="about-photo flex justify-center items-center">
-            <ProfileCard
-              name="Farid Kurniawan"
-              title="Cyber Security · Fullstack"
-              handle="paridxd"
-              status="Online"
-              contactText="Contact Me"
-              avatarUrl={aboutImg}
-              miniAvatarUrl={aboutImg}
-              showUserInfo
-              enableTilt={true}
-              enableMobileTilt={false}
-              behindGlowEnabled={true}
-              behindGlowColor="rgba(250, 204, 21, 0.35)"
-              behindGlowSize="55%"
-              innerGradient="none"
-              onContactClick={() =>
-                document
-                  .getElementById("contact")
-                  ?.scrollIntoView({ behavior: "smooth" })
-              }
-            />
+            <div className="profile-card-scale">
+              <ProfileCard
+                name="Farid Kurniawan"
+                title="Cyber Security · Fullstack"
+                handle="paridxd"
+                status="Online"
+                contactText="Contact Me"
+                avatarUrl={aboutImg}
+                miniAvatarUrl={aboutImg}
+                showUserInfo
+                enableTilt={true}
+                enableMobileTilt={false}
+                behindGlowEnabled={true}
+                behindGlowColor="rgba(250, 204, 21, 0.35)"
+                behindGlowSize="55%"
+                innerGradient="none"
+                onContactClick={() =>
+                  document
+                    .getElementById("contact")
+                    ?.scrollIntoView({ behavior: "smooth" })
+                }
+              />
+            </div>
           </div>
 
           {/* ── Teks + Stats ── */}
@@ -210,7 +230,7 @@ export default function About() {
               whether it runs.
             </p>
             <p
-              className="about-para2 leading-relaxed mb-10"
+              className="about-para2 leading-relaxed mb-6 md:mb-10"
               style={{ color: "#ffffff80" }}
             >
               Currently working with Node.js, Python, and PostgreSQL as my core
