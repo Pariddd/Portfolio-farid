@@ -103,7 +103,7 @@ export default function About() {
     <section
       ref={sectionRef}
       id="about"
-      className="px-4 sm:px-8 md:px-20 py-16 md:py-24 max-w-6xl mx-auto"
+      className="px-4 sm:px-8 md:px-8 lg:px-20 py-16 md:py-24 max-w-6xl mx-auto"
     >
       <style>{`
         @keyframes fadeUp {
@@ -145,21 +145,67 @@ export default function About() {
           animation: scaleIn 0.65s cubic-bezier(0.4,0,0.2,1) 0.1s forwards;
         }
 
-        /* ── Responsive: scale down ProfileCard on mobile ── */
+        /* ── Responsive: ProfileCard mobile fix ── */
+
+        /*
+          Root cause: ProfileCard punya fixed width internal (~380px).
+          transform: scale() tidak mencegah overflow — layout sudah terjadi sebelum scale.
+          Fix: gunakan wrapper yang constrain width + scale dari dalam.
+        */
+        .profile-card-wrapper {
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          /* Clip overflow horizontal agar card tidak meluber keluar section */
+          overflow: hidden;
+        }
+
         .profile-card-scale {
           transform-origin: top center;
+          flex-shrink: 0;
         }
+
         @media (max-width: 479px) {
           .profile-card-scale {
-            transform: scale(0.78);
-            /* Kompensasi: maxHeight 540 → visual 421px → hemat ~119px layout space */
-            margin-bottom: -108px;
+            transform: scale(0.75);
+          }
+          .profile-card-wrapper {
+            height: 405px;
+            align-items: flex-start;
           }
         }
+
         @media (min-width: 480px) and (max-width: 767px) {
           .profile-card-scale {
             transform: scale(0.85);
-            margin-bottom: -78px;
+          }
+          .profile-card-wrapper {
+            height: 459px;
+            align-items: flex-start;
+            overflow: hidden;
+          }
+        }
+
+        @media (min-width: 768px) and (max-width: 1023px) {
+          /*
+            Dengan md:px-8 (32px tiap sisi), konten = 768-64 = 704px.
+            Gap 24px → tiap kolom = (704-24)/2 = 340px.
+            Scale(0.88) → visual card 380*0.88 = 334px, muat di 340px kolom.
+          */
+          .profile-card-scale {
+            transform: scale(0.88);
+          }
+          .profile-card-wrapper {
+            height: 475px;
+            align-items: flex-start;
+            overflow: hidden;
+          }
+        }
+
+        @media (min-width: 1024px) {
+          .profile-card-wrapper {
+            overflow: visible;
+            height: auto;
           }
         }
       `}</style>
@@ -178,41 +224,44 @@ export default function About() {
           <span style={{ color: "#444" }}>~/portfolio/ </span>02 — About
         </p>
 
-        <div className="grid md:grid-cols-2 gap-6 md:gap-12 items-center">
+        <div className="grid md:grid-cols-2 gap-6 md:gap-6 lg:gap-16 items-center">
           {/* ── ProfileCard ── */}
-          <div className="about-photo flex justify-center items-center">
-            <div className="profile-card-scale">
-              <ProfileCard
-                name="Farid Kurniawan"
-                title="Cyber Security · Fullstack"
-                handle="paridxd"
-                status="Online"
-                contactText="Contact Me"
-                avatarUrl={aboutImg}
-                miniAvatarUrl={aboutImg}
-                showUserInfo
-                enableTilt={true}
-                enableMobileTilt={false}
-                behindGlowEnabled={true}
-                behindGlowColor="rgba(250, 204, 21, 0.35)"
-                behindGlowSize="55%"
-                innerGradient="none"
-                onContactClick={() =>
-                  document
-                    .getElementById("contact")
-                    ?.scrollIntoView({ behavior: "smooth" })
-                }
-              />
+          <div className="about-photo flex justify-center min-w-0 pb-8 md:pb-0">
+            {/* profile-card-wrapper: constrain overflow SEBELUM scale terjadi */}
+            <div className="profile-card-wrapper">
+              <div className="profile-card-scale">
+                <ProfileCard
+                  name="Farid Kurniawan"
+                  title="Cyber Security · Fullstack"
+                  handle="paridxd"
+                  status="Online"
+                  contactText="Contact Me"
+                  avatarUrl={aboutImg}
+                  miniAvatarUrl={aboutImg}
+                  showUserInfo
+                  enableTilt={true}
+                  enableMobileTilt={false}
+                  behindGlowEnabled={true}
+                  behindGlowColor="rgba(250, 204, 21, 0.35)"
+                  behindGlowSize="55%"
+                  innerGradient="none"
+                  onContactClick={() =>
+                    document
+                      .getElementById("contact")
+                      ?.scrollIntoView({ behavior: "smooth" })
+                  }
+                />
+              </div>
             </div>
           </div>
 
           {/* ── Teks + Stats ── */}
-          <div>
+          <div className="min-w-0">
             <h2
               className="about-heading font-black mb-6 leading-tight"
               style={{
                 fontFamily: "'Syne', sans-serif",
-                fontSize: "clamp(1.8rem, 2.8vw, 2.8rem)",
+                fontSize: "clamp(1.5rem, 5vw, 2.8rem)",
               }}
             >
               Code is craft,
