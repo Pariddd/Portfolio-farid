@@ -270,7 +270,7 @@ export default function About() {
             </h2>
 
             <p
-              className="about-para1 leading-relaxed mb-4"
+              className="about-para1 leading-relaxed mb-4 text-justify"
               style={{ color: "#ffffff80" }}
             >
               I'm a backend-focused fullstack developer with a passion for
@@ -279,7 +279,7 @@ export default function About() {
               whether it runs.
             </p>
             <p
-              className="about-para2 leading-relaxed mb-6 md:mb-10"
+              className="about-para2 leading-relaxed mb-6 md:mb-10 text-justify"
               style={{ color: "#ffffff80" }}
             >
               Currently working with Node.js, Python, and PostgreSQL as my core
